@@ -16,6 +16,7 @@ namespace OracledbEditor
            // Console.WriteLine("loaded");
 
         }
+        //test pakeitimas
 
         private void Form1_Load(object sender, EventArgs e)
         {
