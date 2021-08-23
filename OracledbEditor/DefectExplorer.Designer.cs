@@ -1,7 +1,7 @@
 ﻿
 namespace OracledbEditor
 {
-    partial class Form1
+    partial class DefectExplorer
     {
         /// <summary>
         /// Required designer variable.

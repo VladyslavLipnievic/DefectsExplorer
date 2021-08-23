@@ -28,3 +28,5 @@ C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Release\OracledbEd
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Release\OracledbEditor.csproj.CopyComplete
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Release\OracledbEditor.exe
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Release\OracledbEditor.pdb
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Release\Newtonsoft.Json.dll
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Release\Newtonsoft.Json.xml

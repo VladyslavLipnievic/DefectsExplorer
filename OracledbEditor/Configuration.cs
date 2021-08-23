@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace OracledbEditor
 {
-    class Configuration
+    public class Configuration
     {
-        public static string conString { get; set; } = "User Id=praktika_vladyslav;Password=praktika;Data Source=192.168.0.188:1521/startas";
+        public string address { get; set; }
+        public string userId { get; set; }
+        public string password { get; set; }
     }
 
 

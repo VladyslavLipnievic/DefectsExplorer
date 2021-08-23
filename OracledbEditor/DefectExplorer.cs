@@ -1,62 +1,75 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
+using Newtonsoft.Json;
 
 namespace OracledbEditor
 {
-    public partial class Form1 : Form
+    public partial class DefectExplorer : Form
     {
-        QuerySelection qs = new QuerySelection();
+        public static Configuration config = new Configuration();
+        DbOperations db = new DbOperations();
         Dictionary<TreeNode, char> nodeMap = new Dictionary<TreeNode, char>();
-        IDefectItem selectedItem;
         string tableName = "";
 
-        public Form1()
+        public DefectExplorer()
         {
             InitializeComponent();
-            // Console.WriteLine("loaded");
             this.FormClosing += Form1_FormClosing;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            qs.closeConn();
+            db.CloseConn();
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
-        {   
-            qs.selectDefects();
-            qs.selectDefectTypes();
-            qs.selectDefectPosition();
-            printTree();
-        }
-
-
-        void printTree()
         {
+            try
+            {
+                ReadConfig();
+                db.OpenConnection();
+                db.SelectDefects();
+                db.SelectDefectTypes();
+                db.SelectDefectPosition();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+            PrintTree();
 
+        }
+        public void ReadConfig()
+        {
+            string json;
+            json = File.ReadAllText("config.json");
+            config = JsonConvert.DeserializeObject<Configuration>(json);
+        }
+        void PrintTree()
+        {
             TreeNode defectNode;
             TreeNode defectTypeNode;
             TreeNode defectPositionNode;
 
-
-            foreach (var defect in qs.defectlist)
+            foreach (var defect in db.defectlist)
             {
-
                 defectNode = treeView1.Nodes.Add(defect.Name);
                 defectNode.Tag = defect;
                 nodeMap[defectNode] = 'd';
-                foreach (var defectType in qs.defectTypeList)
+                foreach (var defectType in db.defectTypeList)
                 {
                     if (defectType.Defectid == defect.Id)
                     {
                         defectTypeNode = defectNode.Nodes.Add(defectType.Name);
                         defectTypeNode.Tag = defectType;
                         nodeMap[defectTypeNode] = 't';
-                        foreach (var defectPosition in qs.defectPositionList)
+                        foreach (var defectPosition in db.defectPositionList)
                         {
                             if (defectPosition.DefectTypeId == defectType.Id)
                             {
@@ -69,8 +82,6 @@ namespace OracledbEditor
 
                 }
             }
-
-
         }
 
         private void btnSelect_Click_1(object sender, EventArgs e)
@@ -83,7 +94,7 @@ namespace OracledbEditor
      /*   public void UpdateDB(string tableName, string colName, string newValue, int id)
         {
             string sql = $"update {tableName} set {colName} = '{newValue}' where nid = {id}";
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             cmd.ExecuteNonQuery();
         }*/
 
@@ -111,7 +122,7 @@ namespace OracledbEditor
             try
             {
                
-               qs.deleteRow(defectItem.TableName, defectItem.Id);
+               db.deleteRow(defectItem.TableName, defectItem.Id);
                treeView1.SelectedNode.Remove();
                 //  treeView1.SelectedNode.Text = txtName.Text;
 
@@ -141,8 +152,8 @@ namespace OracledbEditor
             try
             {
                // public void UpdateDB(string tableName, string colName, string newValue, int id)
-                qs.UpdateDB(defectItem.TableName, "sname", txtName.Text, defectItem.Id);
-                qs.UpdateDB(defectItem.TableName, "sdescription", txtDescription.Text, defectItem.Id);
+                db.UpdateDB(defectItem.TableName, "sname", txtName.Text, defectItem.Id);
+                db.UpdateDB(defectItem.TableName, "sdescription", txtDescription.Text, defectItem.Id);
                 treeView1.SelectedNode.Text = txtName.Text;
                 
                 IDefectItem defectItemFromTxtForm = GetSelectedItem();
@@ -218,12 +229,12 @@ namespace OracledbEditor
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            qs.clearList();
+            db.clearList();
             treeView1.Nodes.Clear();
-            qs.selectDefects();
-            qs.selectDefectTypes();
-            qs.selectDefectPosition();
-            printTree();
+            db.SelectDefects();
+            db.SelectDefectTypes();
+            db.SelectDefectPosition();
+            PrintTree();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)

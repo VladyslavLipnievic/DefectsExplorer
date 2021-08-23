@@ -1,33 +1,47 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
+using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace OracledbEditor
 {
-    class QuerySelection
+    class DbOperations
     {
         public List<Defect> defectlist { get; set; } = new List<Defect>();
         public List<DefectType> defectTypeList { get; set; } = new List<DefectType>();
         public List<DefectPosition> defectPositionList { get; set; } = new List<DefectPosition>();
         Dictionary<int, List<int>> DefectDefectsTypesMap = new Dictionary<int, List<int>>();
-
+        private OracleConnection conn { get; set; }
+        public void OpenConnection()
+        {
+            conn = new OracleConnection($"User Id={DefectExplorer.config.userId};Password={DefectExplorer.config.password};Data Source={DefectExplorer.config.address}");
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void CloseConnection()
+        {
+            if (conn.State == System.Data.ConnectionState.Open)
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
         public void clearList()
         {
             defectlist.Clear();
             defectTypeList.Clear();
             defectPositionList.Clear();
-        }
-
-        DBConnection dBConnection = new DBConnection();
-
-
-
-        public QuerySelection()
-        {
-            dBConnection.OpenConnection();
         }
         /*    void MapDefectDefectsTypes()
             {
@@ -37,19 +51,12 @@ namespace OracledbEditor
                     DefectDefectsTypesMap.Add(defectType.Defectid, )
                 }
             }*/
-
-
-
-
-
-
-
         public void queryForTree()
         {
 
             string sql = "select nid, sName, sDescription from Defects";
 
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
 
             OracleDataReader dr = cmd.ExecuteReader();
 
@@ -63,11 +70,11 @@ namespace OracledbEditor
 
 
 
-        public void selectDefectPosition()
+        public void SelectDefectPosition()
         {
             string sql = "select nid, sName, sDescription, defect_type_id from defect_position";
 
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             OracleDataReader dr = cmd.ExecuteReader();
 
             while (dr.Read())
@@ -81,13 +88,13 @@ namespace OracledbEditor
             cmd.Dispose();
         }
 
-        public void selectDefectTypes()
+        public void SelectDefectTypes()
         {
 
 
             string sql = "select nid, sName, sDescription, defect_id from Defect_types";
 
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -101,17 +108,17 @@ namespace OracledbEditor
         }
 
 
-     
 
 
 
 
-        public void selectDefects()
+
+        public void SelectDefects()
         {
 
             string sql = "select nid, sName, sDescription from Defects";
 
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
 
             OracleDataReader dr = cmd.ExecuteReader();
 
@@ -127,15 +134,15 @@ namespace OracledbEditor
             cmd.Dispose();
         }
 
-  
 
-        public void deleteRow(string tableName,  int id)
+
+        public void deleteRow(string tableName, int id)
         {
 
 
 
             string sql = $"Delete from {tableName} where nid = {id}";
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             cmd.ExecuteNonQuery();
         }
 
@@ -144,13 +151,13 @@ namespace OracledbEditor
         public void addNewRow(string tableName, string Name, string Description, int id)
         {
             string sql = $"insert into  {tableName} VALUES {Name} = '{Description}' where nid = {id}";
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             cmd.ExecuteNonQuery();
-/*
-            INSERT INTO Defect_position
-(nID, sName, sDescription, defect_type_id)
-VALUES
-(4, 'corrosion', 'corrosion on wheels', 4);*/
+            /*
+                        INSERT INTO Defect_position
+            (nID, sName, sDescription, defect_type_id)
+            VALUES
+            (4, 'corrosion', 'corrosion on wheels', 4);*/
 
         }
 
@@ -158,16 +165,16 @@ VALUES
         public void UpdateDB(string tableName, string colName, string newValue, int id)
         {
             string sql = $"update {tableName} set {colName} = '{newValue}' where nid = {id}";
-            OracleCommand cmd = new OracleCommand(sql, dBConnection.conn);
+            OracleCommand cmd = new OracleCommand(sql, conn);
             cmd.ExecuteNonQuery();
         }
 
- 
 
 
-        public void closeConn()
+
+        public void CloseConn()
         {
-            dBConnection.CloseConnection();
+            CloseConnection();
         }
     }
 }
