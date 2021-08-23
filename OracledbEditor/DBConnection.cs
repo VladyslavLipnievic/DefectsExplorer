@@ -10,25 +10,30 @@ namespace OracledbEditor
 {
     class DBConnection
     {
+
         public OracleConnection conn { get; } = new OracleConnection(Configuration.conString);
-        public void OpenConnection ()
+        public void OpenConnection()
         {
             try
             {
                 conn.Open();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        public void CloseConnection() 
+
+
+
+      
+        public void CloseConnection()
         {
-            if(conn.State == System.Data.ConnectionState.Open)
+            if (conn.State == System.Data.ConnectionState.Open)
             {
                 conn.Close();
                 conn.Dispose();
-            }    
+            }
         }
     }
 }
