@@ -148,9 +148,9 @@ namespace OracledbEditor
 
 
 
-        public void addNewRow(string tableName, string Name, string Description, int id)
+        public void addNewRow(string tableName, string Name, string Description)
         {
-            string sql = $"insert into  {tableName} VALUES {Name} = '{Description}' where nid = {id}";
+            string sql = $"insert into {tableName}(sname, sdescription) VALUES ('{Name}','{Description}')";
             OracleCommand cmd = new OracleCommand(sql, conn);
             cmd.ExecuteNonQuery();
             /*
