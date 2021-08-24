@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OracledbEditor
 {
-    interface IDefectItem
+    public interface IDefectItem
     {
         int Id { get; set; }
         string Name { get; set; }

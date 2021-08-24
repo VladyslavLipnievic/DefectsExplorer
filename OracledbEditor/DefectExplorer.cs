@@ -13,7 +13,11 @@ namespace OracledbEditor
         public static Configuration config = new Configuration();
         DbOperations db = new DbOperations();
         Dictionary<TreeNode, char> nodeMap = new Dictionary<TreeNode, char>();
-        string itemType = "";
+        
+
+
+
+        public string itemType = "";
 
         public DefectExplorer()
         {
@@ -25,6 +29,15 @@ namespace OracledbEditor
         {
             db.CloseConn();
         }
+
+
+       
+        
+        
+
+
+
+
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -122,12 +135,42 @@ namespace OracledbEditor
 
             return defectItem;
         }
+        void displayItem(IDefectItem defItem)
+        {
+            txtName.Text = defItem.Name;
+            label1.Text = itemType + " name";
+            label2.Text = itemType + " description";
+            txtDescription.Text = defItem.Description;
+            lblType.Text = itemType;
+        }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            IDefectItem defectItem = GetSelectedItem();
-            txtName.Text = defectItem.Name;
-            txtDescription.Text = defectItem.Description;
-            lblType.Text = itemType;
+            IDefectItem defItem = GetSelectedItem();
+            displayItem(defItem);
+        }
+
+      
+
+
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
+
+            WindowPopUp objUI = new WindowPopUp(itemType, db, GetSelectedItem().TableName);
+            var result = objUI.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                IDefectItem defItem = objUI.SelectedItem;
+                displayItem(defItem);
+            }
+
+            //db.SearchDB("defects", "aaaa", "aaaa");
+
+
+
+
+
 
 
         }
@@ -201,32 +244,84 @@ namespace OracledbEditor
                 db.addNewRow("defects", txtName.Text, txtDescription.Text);
                 RefreshTree();
 
-
-
-            
         }
 
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
-          
-                // 
-                IDefectItem defectItem = GetSelectedItem();
-                try
-                {
+            // 
+            IDefectItem defectItem = GetSelectedItem();
+            try
+            {
 
-                    db.deleteRow(defectItem.TableName, defectItem.Id);
-                    treeView1.SelectedNode.Remove();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Failed to update db. Error: " + ex.Message);
-                }
-            
+                db.deleteRow(defectItem.TableName, defectItem.Id);
+                treeView1.SelectedNode.Remove();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to update db. Error: " + ex.Message);
+            }
+
         }
 
         private void toolStripTextBox1_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void tlBtnSearch_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDescription_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+
+
+
+
+
+
+        /*   public static int ShowDialog(string text, string caption)
+           {
+               Form prompt = new Form();
+               prompt.Width = 500;
+               prompt.Height = 100;
+               prompt.Text = caption;
+               Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+               NumericUpDown inputBox = new NumericUpDown() { Left = 50, Top = 50, Width = 400 };
+               Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
+               confirmation.Click += (sender, e) => { prompt.Close(); };
+               prompt.Controls.Add(confirmation);
+               prompt.Controls.Add(textLabel);
+               prompt.Controls.Add(inputBox);
+               prompt.ShowDialog();
+               return (int)inputBox.Value;
+           }*/
+
+
+
+
     }
 }

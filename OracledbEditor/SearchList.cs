@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace OracledbEditor
 {
-    public class Defect : IDefectItem
+    class SearchList
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string TableName  { get; } = "defects";
     }
 }

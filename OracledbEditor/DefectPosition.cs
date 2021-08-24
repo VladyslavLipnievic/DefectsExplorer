@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OracledbEditor
 {
-    class DefectPosition : IDefectItem
+    public class DefectPosition : IDefectItem
     {
         public int Id { get; set; }
         public string Name { get; set; }

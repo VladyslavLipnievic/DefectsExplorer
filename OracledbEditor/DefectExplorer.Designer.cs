@@ -37,6 +37,7 @@ namespace OracledbEditor
             this.label1 = new System.Windows.Forms.Label();
             this.lblType = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -56,7 +57,7 @@ namespace OracledbEditor
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(192, 317);
+            this.treeView1.Size = new System.Drawing.Size(203, 317);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -66,8 +67,9 @@ namespace OracledbEditor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(6, 109);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(278, 20);
+            this.txtDescription.Size = new System.Drawing.Size(295, 20);
             this.txtDescription.TabIndex = 12;
+            this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
             // txtName
             // 
@@ -75,7 +77,7 @@ namespace OracledbEditor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(6, 57);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(278, 20);
+            this.txtName.Size = new System.Drawing.Size(295, 20);
             this.txtName.TabIndex = 11;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -122,6 +124,7 @@ namespace OracledbEditor
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnSearch);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnInsert);
             this.splitContainer1.Panel2.Controls.Add(this.btnSave);
@@ -130,9 +133,21 @@ namespace OracledbEditor
             this.splitContainer1.Panel2.Controls.Add(this.txtName);
             this.splitContainer1.Panel2.Controls.Add(this.txtDescription);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Size = new System.Drawing.Size(483, 317);
-            this.splitContainer1.SplitterDistance = 192;
+            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer1.Size = new System.Drawing.Size(511, 317);
+            this.splitContainer1.SplitterDistance = 203;
             this.splitContainer1.TabIndex = 16;
+            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(209, 145);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(57, 23);
+            this.btnSearch.TabIndex = 17;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnDelete
             // 
@@ -172,7 +187,7 @@ namespace OracledbEditor
             this.tlTxtSearch});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(503, 25);
+            this.toolStrip.Size = new System.Drawing.Size(531, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -210,7 +225,7 @@ namespace OracledbEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 352);
+            this.ClientSize = new System.Drawing.Size(531, 352);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.splitContainer1);
             this.Name = "DefectExplorer";
@@ -244,6 +259,7 @@ namespace OracledbEditor
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ToolStripTextBox tlTxtSearch;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
 

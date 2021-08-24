@@ -10,12 +10,15 @@ using System.Windows.Forms;
 
 namespace OracledbEditor
 {
-    class DbOperations
+    public class DbOperations
     {
         public List<Defect> defectlist { get; set; } = new List<Defect>();
         public List<DefectType> defectTypeList { get; set; } = new List<DefectType>();
         public List<DefectPosition> defectPositionList { get; set; } = new List<DefectPosition>();
+
         Dictionary<int, List<int>> DefectDefectsTypesMap = new Dictionary<int, List<int>>();
+
+
         private OracleConnection conn { get; set; }
         public void OpenConnection()
         {
@@ -160,7 +163,42 @@ namespace OracledbEditor
             (4, 'corrosion', 'corrosion on wheels', 4);*/
 
         }
-
+        public List<IDefectItem> SearchDB(string tableName, string filter1, string filter2)
+        {
+            List<IDefectItem> searchList = new List<IDefectItem>();
+            string sql = $"select nId, sName, sDescription from {tableName} where sName like '%{filter1}%' and sDescription like '%{filter2}%'";
+            //MessageBox.Show(sql);
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            OracleDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                IDefectItem defectItem;
+                switch (tableName)
+                {
+                    case "defects":
+                        defectItem = new Defect();
+                        break;
+                    case "defect_types":
+                        defectItem = new DefectType();
+                        break;
+                    case "defect_positions":
+                        defectItem = new DefectPosition();
+                        break;
+                    default:
+                        defectItem = new Defect();
+                        break;
+                }
+                defectItem.Id = Convert.ToInt32(dr[0].ToString());
+                defectItem.Name = dr[1].ToString();
+                defectItem.Description = dr[2].ToString();
+                searchList.Add(defectItem);
+            }
+            // close and dispose the objects
+            dr.Close();
+            dr.Dispose();
+            cmd.Dispose();
+            return searchList;
+        }
 
         public void UpdateDB(string tableName, string colName, string newValue, int id)
         {
@@ -169,8 +207,7 @@ namespace OracledbEditor
             cmd.ExecuteNonQuery();
         }
 
-
-
+    
 
         public void CloseConn()
         {
