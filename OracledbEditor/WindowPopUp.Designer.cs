@@ -29,54 +29,35 @@ namespace OracledbEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.lstBoxSearchItems = new System.Windows.Forms.ListBox();
             this.txtBoxName = new System.Windows.Forms.TextBox();
             this.txtBoxDescription = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.lblName = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.lblCountRows = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // listBoxSearchItems
-            // 
-            this.lstBoxSearchItems.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lstBoxSearchItems.FormattingEnabled = true;
-            this.lstBoxSearchItems.Location = new System.Drawing.Point(0, 0);
-            this.lstBoxSearchItems.Name = "listBoxSearchItems";
-            this.lstBoxSearchItems.Size = new System.Drawing.Size(187, 324);
-            this.lstBoxSearchItems.TabIndex = 0;
-            this.lstBoxSearchItems.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // txtBoxName
             // 
-            this.txtBoxName.Location = new System.Drawing.Point(216, 32);
+            this.txtBoxName.Location = new System.Drawing.Point(12, 58);
             this.txtBoxName.Name = "txtBoxName";
-            this.txtBoxName.Size = new System.Drawing.Size(189, 20);
+            this.txtBoxName.Size = new System.Drawing.Size(287, 20);
             this.txtBoxName.TabIndex = 1;
             this.txtBoxName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // txtBoxDescription
             // 
-            this.txtBoxDescription.Location = new System.Drawing.Point(216, 81);
+            this.txtBoxDescription.Location = new System.Drawing.Point(12, 109);
             this.txtBoxDescription.Name = "txtBoxDescription";
-            this.txtBoxDescription.Size = new System.Drawing.Size(189, 20);
+            this.txtBoxDescription.Size = new System.Drawing.Size(287, 20);
             this.txtBoxDescription.TabIndex = 2;
             this.txtBoxDescription.TextChanged += new System.EventHandler(this.txtBoxDescription_TextChanged);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(216, 126);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 3;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(213, 9);
+            this.lblName.Location = new System.Drawing.Point(23, 26);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 4;
@@ -86,38 +67,61 @@ namespace OracledbEditor
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(213, 65);
+            this.lblDescription.Location = new System.Drawing.Point(23, 93);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(35, 13);
             this.lblDescription.TabIndex = 5;
             this.lblDescription.Text = "label2";
+            this.lblDescription.Click += new System.EventHandler(this.lblDescription_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 145);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.dataGridView1.Size = new System.Drawing.Size(552, 196);
+            this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // lblCountRows
+            // 
+            this.lblCountRows.AutoSize = true;
+            this.lblCountRows.Location = new System.Drawing.Point(213, 344);
+            this.lblCountRows.Name = "lblCountRows";
+            this.lblCountRows.Size = new System.Drawing.Size(35, 13);
+            this.lblCountRows.TabIndex = 7;
+            this.lblCountRows.Text = "label3";
             // 
             // WindowPopUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 324);
+            this.ClientSize = new System.Drawing.Size(564, 366);
+            this.Controls.Add(this.lblCountRows);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtBoxDescription);
             this.Controls.Add(this.txtBoxName);
-            this.Controls.Add(this.lstBoxSearchItems);
             this.Name = "WindowPopUp";
             this.Text = "Search";
             this.Load += new System.EventHandler(this.WindowPopUp_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox lstBoxSearchItems;
         private System.Windows.Forms.TextBox txtBoxName;
         private System.Windows.Forms.TextBox txtBoxDescription;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label lblCountRows;
     }
 }

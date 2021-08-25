@@ -125,7 +125,19 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Configuration.datasource" />
+    <None Include="Properties\DataSources\DbOperations.datasource" />
+    <None Include="Properties\DataSources\Defect.datasource" />
+    <None Include="Properties\DataSources\DefectExplorer.datasource" />
+    <None Include="Properties\DataSources\DefectPosition.datasource" />
+    <None Include="Properties\DataSources\DefectType.datasource" />
     <None Include="Properties\DataSources\IDefectItem.datasource" />
+    <None Include="Properties\DataSources\OracledbEditor.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\OracledbEditor.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
+    <None Include="Properties\DataSources\SearchList.datasource" />
+    <None Include="Properties\DataSources\TreeViewItem.datasource" />
+    <None Include="Properties\DataSources\WindowPopUp.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

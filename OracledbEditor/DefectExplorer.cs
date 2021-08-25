@@ -13,33 +13,19 @@ namespace OracledbEditor
         public static Configuration config = new Configuration();
         DbOperations db = new DbOperations();
         Dictionary<TreeNode, char> nodeMap = new Dictionary<TreeNode, char>();
-        
-
-
-
+        TreeNode defectNode;
+        TreeNode defectTypeNode;
+        TreeNode defectPositionNode;
         public string itemType = "";
-
         public DefectExplorer()
         {
             InitializeComponent();
             this.FormClosing += Form1_FormClosing;
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             db.CloseConn();
         }
-
-
-       
-        
-        
-
-
-
-
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -56,7 +42,7 @@ namespace OracledbEditor
             }
 
             PrintTree();
-
+            PointTotreeSearch();
         }
         public void ReadConfig()
         {
@@ -66,10 +52,6 @@ namespace OracledbEditor
         }
         void PrintTree()
         {
-            TreeNode defectNode;
-            TreeNode defectTypeNode;
-            TreeNode defectPositionNode;
-
             foreach (var defect in db.defectlist)
             {
                 defectNode = treeView1.Nodes.Add(defect.Name);
@@ -96,19 +78,14 @@ namespace OracledbEditor
                 }
             }
         }
-
         private void btnSelect_Click_1(object sender, EventArgs e)
         {
 
 
         }
-
-
         private void txtName_TextChanged(object sender, EventArgs e)
         {
 
-            //txtName.Text = defectItem.Name;
-            //txtDescription.Text = defectItem.Description;
 
         }
         IDefectItem GetSelectedItem()
@@ -132,15 +109,17 @@ namespace OracledbEditor
                 default:
                     break;
             }
-
             return defectItem;
+        }
+    public void PointTotreeSearch()
+        {
         }
         void displayItem(IDefectItem defItem)
         {
             txtName.Text = defItem.Name;
+            txtDescription.Text = defItem.Description;
             label1.Text = itemType + " name";
             label2.Text = itemType + " description";
-            txtDescription.Text = defItem.Description;
             lblType.Text = itemType;
         }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -148,48 +127,23 @@ namespace OracledbEditor
             IDefectItem defItem = GetSelectedItem();
             displayItem(defItem);
         }
-
-      
-
-
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
-
-
             WindowPopUp objUI = new WindowPopUp(itemType, db, GetSelectedItem().TableName);
             var result = objUI.ShowDialog();
             if (result == DialogResult.OK)
             {
                 IDefectItem defItem = objUI.SelectedItem;
                 displayItem(defItem);
+                objUI.Dispose();
             }
-
-            //db.SearchDB("defects", "aaaa", "aaaa");
-
-
-
-
-
-
-
         }
-
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
-
-
-
         private void label2_Click(object sender, EventArgs e)
         {
-
         }
-
-
-
-
         private void RefreshTree()
         {
             db.clearList();
@@ -201,14 +155,10 @@ namespace OracledbEditor
         }
         private void btnPrint_Click(object sender, EventArgs e)
         {
-
         }
-
         private void tabPage1_Click(object sender, EventArgs e)
         {
-
         }
-
         private void tlBtnRefresh_Click(object sender, EventArgs e)
         {
             RefreshTree();
@@ -236,23 +186,18 @@ namespace OracledbEditor
         {
             saveToDb();
         }
-
         private void btnInsert_Click(object sender, EventArgs e)
         {
-          
-                //addNewRow(string tableName, string Name, string Description)
-                db.addNewRow("defects", txtName.Text, txtDescription.Text);
-                RefreshTree();
-
+            //addNewRow(string tableName, string Name, string Description)
+            db.addNewRow("defects", txtName.Text, txtDescription.Text);
+            RefreshTree();
         }
-
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
             // 
             IDefectItem defectItem = GetSelectedItem();
             try
             {
-
                 db.deleteRow(defectItem.TableName, defectItem.Id);
                 treeView1.SelectedNode.Remove();
             }
@@ -260,68 +205,37 @@ namespace OracledbEditor
             {
                 MessageBox.Show("Failed to update db. Error: " + ex.Message);
             }
-
         }
-
         private void toolStripTextBox1_Click(object sender, EventArgs e)
         {
 
         }
-
         private void tlBtnSearch_Click(object sender, EventArgs e)
         {
         }
-
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
-
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
-
         private void txtDescription_TextChanged(object sender, EventArgs e)
         {
-
         }
-
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
         }
 
-
-
-
-
-
-
-        /*   public static int ShowDialog(string text, string caption)
-           {
-               Form prompt = new Form();
-               prompt.Width = 500;
-               prompt.Height = 100;
-               prompt.Text = caption;
-               Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
-               NumericUpDown inputBox = new NumericUpDown() { Left = 50, Top = 50, Width = 400 };
-               Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
-               confirmation.Click += (sender, e) => { prompt.Close(); };
-               prompt.Controls.Add(confirmation);
-               prompt.Controls.Add(textLabel);
-               prompt.Controls.Add(inputBox);
-               prompt.ShowDialog();
-               return (int)inputBox.Value;
-           }*/
-
-
-
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+           // MessageBox.Show(objUI.);
+;        }
     }
 }
