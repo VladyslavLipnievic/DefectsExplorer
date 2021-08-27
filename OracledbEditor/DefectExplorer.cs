@@ -13,14 +13,16 @@ namespace OracledbEditor
         public static Configuration config = new Configuration();
         DbOperations db = new DbOperations();
         Dictionary<TreeNode, char> nodeMap = new Dictionary<TreeNode, char>();
-        TreeNode defectNode;
-        TreeNode defectTypeNode;
-        TreeNode defectPositionNode;
+        //IDefectItem defItem = new Defect();
+        IDefectItem searchItem;
+        List<TreeNode> searchItemsList = new List<TreeNode>();
+        int searchIndex = 0;
         public string itemType = "";
         public DefectExplorer()
         {
             InitializeComponent();
             this.FormClosing += Form1_FormClosing;
+            treeView1.ImageList = imageList1;
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -40,9 +42,7 @@ namespace OracledbEditor
             {
                 MessageBox.Show(ex.Message);
             }
-
             PrintTree();
-            PointTotreeSearch();
         }
         public void ReadConfig()
         {
@@ -52,10 +52,16 @@ namespace OracledbEditor
         }
         void PrintTree()
         {
+            TreeNode defectNode;
+            TreeNode defectTypeNode;
+            TreeNode defectPositionNode;
             foreach (var defect in db.defectlist)
             {
                 defectNode = treeView1.Nodes.Add(defect.Name);
                 defectNode.Tag = defect;
+                defectNode.Name = defect.Name;
+                defectNode.ImageIndex = 0;
+                defectNode.SelectedImageIndex = 0;
                 nodeMap[defectNode] = 'd';
                 foreach (var defectType in db.defectTypeList)
                 {
@@ -63,6 +69,9 @@ namespace OracledbEditor
                     {
                         defectTypeNode = defectNode.Nodes.Add(defectType.Name);
                         defectTypeNode.Tag = defectType;
+                        defectTypeNode.Name = defectType.Name;
+                        defectTypeNode.ImageIndex = 1;
+                        defectTypeNode.SelectedImageIndex = 1;
                         nodeMap[defectTypeNode] = 't';
                         foreach (var defectPosition in db.defectPositionList)
                         {
@@ -70,51 +79,99 @@ namespace OracledbEditor
                             {
                                 defectPositionNode = defectTypeNode.Nodes.Add(defectPosition.Name);
                                 defectPositionNode.Tag = defectPosition;
+                                defectPositionNode.Name = defectPosition.Name;
+                                defectPositionNode.ImageIndex = 2;
+                                defectPositionNode.SelectedImageIndex = 2;
                                 nodeMap[defectPositionNode] = 'p';
                             }
                         }
                     }
-
                 }
             }
         }
         private void btnSelect_Click_1(object sender, EventArgs e)
         {
-
-
         }
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-
-
         }
         IDefectItem GetSelectedItem()
         {
             IDefectItem defectItem = new Defect();
-
-            switch (nodeMap[treeView1.SelectedNode])
+            if (treeView1.SelectedNode != null)
             {
-                case 'd':
-                    defectItem = treeView1.SelectedNode.Tag as Defect;
-                    itemType = "Defect";
-                    break;
-                case 't':
-                    defectItem = treeView1.SelectedNode.Tag as DefectType;
-                    itemType = "Defect type";
-                    break;
-                case 'p':
-                    defectItem = treeView1.SelectedNode.Tag as DefectPosition;
-                    itemType = "Defect position";
-                    break;
-                default:
-                    break;
+                switch (nodeMap[treeView1.SelectedNode])
+                {
+                    case 'd':
+                        defectItem = treeView1.SelectedNode.Tag as Defect;
+                        itemType = "Defect";
+                        break;
+                    case 't':
+                        defectItem = treeView1.SelectedNode.Tag as DefectType;
+                        itemType = "Defect type";
+                        break;
+                    case 'p':
+                        defectItem = treeView1.SelectedNode.Tag as DefectPosition;
+                        itemType = "Defect position";
+                        break;
+                    default:
+                        break;
+                }
             }
             return defectItem;
         }
-    public void PointTotreeSearch()
+        private void SearchNode(TreeNode treeNode, bool searchTree)
         {
+            IDefectItem defectItem = new Defect();
+            if (itemType == "Defect" && treeNode.Tag is Defect)
+            {
+                defectItem = treeNode.Tag as Defect;
+            }
+            else if (itemType == "Defect type" && treeNode.Tag is DefectType)
+            {
+                defectItem = treeNode.Tag as DefectType;
+            }
+            else if (itemType == "Defect position" && treeNode.Tag is DefectPosition)
+            {
+                defectItem = treeNode.Tag as DefectPosition;
+            }
+            if(searchTree)
+            {
+                if(treeNode.Text.Contains(tlTxtSearch.Text))
+                {
+                    searchItemsList.Add(treeNode);
+                }
+            }
+            else
+            {
+                if (searchItem.Id == defectItem.Id)
+                {
+                    treeView1.SelectedNode = treeNode;
+                    treeView1.Focus();
+                }
+            }
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                SearchNode(node, searchTree);
+            }
         }
-        void displayItem(IDefectItem defItem)
+        void SelectTreeItem(IDefectItem defItem)
+        {
+            searchItem = defItem;
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                SearchNode(node, false);
+            }
+        }
+        void SearchTree()
+        {
+            searchItemsList.Clear();
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                SearchNode(node, true);
+            }
+        }
+        void DisplayItem(IDefectItem defItem)
         {
             txtName.Text = defItem.Name;
             txtDescription.Text = defItem.Description;
@@ -125,21 +182,18 @@ namespace OracledbEditor
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             IDefectItem defItem = GetSelectedItem();
-            displayItem(defItem);
+            DisplayItem(defItem);
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            WindowPopUp objUI = new WindowPopUp(itemType, db, GetSelectedItem().TableName);
+            WindowPopUp objUI = new WindowPopUp(itemType, db, GetSelectedItem().TableName, txtName.Text, txtDescription.Text);
             var result = objUI.ShowDialog();
             if (result == DialogResult.OK)
             {
                 IDefectItem defItem = objUI.SelectedItem;
-                displayItem(defItem);
-                objUI.Dispose();
+                DisplayItem(defItem);
+                SelectTreeItem(defItem);
             }
-        }
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
         private void label2_Click(object sender, EventArgs e)
         {
@@ -168,11 +222,9 @@ namespace OracledbEditor
             IDefectItem defectItem = GetSelectedItem();
             try
             {
-                // public void UpdateDB(string tableName, string colName, string newValue, int id)
                 db.UpdateDB(defectItem.TableName, "sname", txtName.Text, defectItem.Id);
                 db.UpdateDB(defectItem.TableName, "sdescription", txtDescription.Text, defectItem.Id);
                 treeView1.SelectedNode.Text = txtName.Text;
-
                 IDefectItem defectItemFromTxtForm = GetSelectedItem();
                 defectItemFromTxtForm.Name = txtName.Text;
                 defectItemFromTxtForm.Description = txtDescription.Text;
@@ -188,7 +240,6 @@ namespace OracledbEditor
         }
         private void btnInsert_Click(object sender, EventArgs e)
         {
-            //addNewRow(string tableName, string Name, string Description)
             db.addNewRow("defects", txtName.Text, txtDescription.Text);
             RefreshTree();
         }
@@ -208,18 +259,15 @@ namespace OracledbEditor
         }
         private void toolStripTextBox1_Click(object sender, EventArgs e)
         {
-
         }
         private void tlBtnSearch_Click(object sender, EventArgs e)
         {
         }
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
-
         }
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -230,12 +278,45 @@ namespace OracledbEditor
         }
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
+        }
+        private void tlBtnSearch_Click_1(object sender, EventArgs e)
+        {
+            searchIndex = 0;
+            searchItemsList.Clear();
+            SearchTree();
+            if (searchItemsList.Count > 0)
+            {
+                treeView1.SelectedNode = searchItemsList[0];
+                treeView1.Focus();
+            }            
+        }
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if(searchIndex + 1<= searchItemsList.Count - 1)
+            {
+                searchIndex++;
+                treeView1.SelectedNode = searchItemsList[searchIndex];
+                treeView1.Focus();
+            }
+        }
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            if (searchIndex -1 >= 0)
+            {
+                searchIndex--;
+                treeView1.SelectedNode = searchItemsList[searchIndex];
+                treeView1.Focus();
+            }
+        }
+        private void toolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
-           // MessageBox.Show(objUI.);
-;        }
+            txtName.Text = "";
+            txtDescription.Text = "";
+        }
     }
 }

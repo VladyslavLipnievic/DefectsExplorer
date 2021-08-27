@@ -40,24 +40,24 @@ namespace OracledbEditor
             // 
             // txtBoxName
             // 
-            this.txtBoxName.Location = new System.Drawing.Point(12, 58);
+            this.txtBoxName.Location = new System.Drawing.Point(12, 25);
             this.txtBoxName.Name = "txtBoxName";
-            this.txtBoxName.Size = new System.Drawing.Size(287, 20);
+            this.txtBoxName.Size = new System.Drawing.Size(269, 20);
             this.txtBoxName.TabIndex = 1;
             this.txtBoxName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // txtBoxDescription
             // 
-            this.txtBoxDescription.Location = new System.Drawing.Point(12, 109);
+            this.txtBoxDescription.Location = new System.Drawing.Point(287, 25);
             this.txtBoxDescription.Name = "txtBoxDescription";
-            this.txtBoxDescription.Size = new System.Drawing.Size(287, 20);
+            this.txtBoxDescription.Size = new System.Drawing.Size(265, 20);
             this.txtBoxDescription.TabIndex = 2;
             this.txtBoxDescription.TextChanged += new System.EventHandler(this.txtBoxDescription_TextChanged);
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(23, 26);
+            this.lblName.Location = new System.Drawing.Point(12, 9);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 4;
@@ -67,7 +67,7 @@ namespace OracledbEditor
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(23, 93);
+            this.lblDescription.Location = new System.Drawing.Point(284, 9);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(35, 13);
             this.lblDescription.TabIndex = 5;
@@ -79,11 +79,11 @@ namespace OracledbEditor
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 145);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 51);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.dataGridView1.Size = new System.Drawing.Size(552, 196);
+            this.dataGridView1.Size = new System.Drawing.Size(563, 290);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 

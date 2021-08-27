@@ -29,6 +29,7 @@ namespace OracledbEditor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefectExplorer));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.txtDescription = new System.Windows.Forms.TextBox();
@@ -41,10 +42,14 @@ namespace OracledbEditor
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tlBtnRefresh = new System.Windows.Forms.ToolStripButton();
             this.tlBtnSearch = new System.Windows.Forms.ToolStripButton();
             this.tlTxtSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -124,6 +129,7 @@ namespace OracledbEditor
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnClear);
             this.splitContainer1.Panel2.Controls.Add(this.btnSearch);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnInsert);
@@ -141,7 +147,7 @@ namespace OracledbEditor
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(209, 145);
+            this.btnSearch.Location = new System.Drawing.Point(188, 145);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(57, 23);
             this.btnSearch.TabIndex = 17;
@@ -151,7 +157,7 @@ namespace OracledbEditor
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(142, 145);
+            this.btnDelete.Location = new System.Drawing.Point(128, 145);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(57, 23);
             this.btnDelete.TabIndex = 16;
@@ -161,7 +167,7 @@ namespace OracledbEditor
             // 
             // btnInsert
             // 
-            this.btnInsert.Location = new System.Drawing.Point(72, 145);
+            this.btnInsert.Location = new System.Drawing.Point(67, 145);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(57, 23);
             this.btnInsert.TabIndex = 16;
@@ -178,18 +184,6 @@ namespace OracledbEditor
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // toolStrip
-            // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tlBtnRefresh,
-            this.tlBtnSearch,
-            this.tlTxtSearch});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(531, 25);
-            this.toolStrip.TabIndex = 0;
-            this.toolStrip.Text = "toolStrip1";
             // 
             // tlBtnRefresh
             // 
@@ -211,6 +205,7 @@ namespace OracledbEditor
             this.tlBtnSearch.Size = new System.Drawing.Size(23, 22);
             this.tlBtnSearch.Text = "Search";
             this.tlBtnSearch.ToolTipText = "Search";
+            this.tlBtnSearch.Click += new System.EventHandler(this.tlBtnSearch_Click_1);
             // 
             // tlTxtSearch
             // 
@@ -220,6 +215,59 @@ namespace OracledbEditor
             this.tlTxtSearch.Size = new System.Drawing.Size(150, 25);
             this.tlTxtSearch.ToolTipText = "Enter your search here";
             this.tlTxtSearch.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlBtnRefresh,
+            this.tlBtnSearch,
+            this.tlTxtSearch,
+            this.toolStripButton2,
+            this.toolStripButton1});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(531, 25);
+            this.toolStrip.TabIndex = 0;
+            this.toolStrip.Text = "toolStrip1";
+            this.toolStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip_ItemClicked);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "tlBtnNext";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "defect.png");
+            this.imageList1.Images.SetKeyName(1, "defectposition.png");
+            this.imageList1.Images.SetKeyName(2, "defecttype.png");
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(247, 145);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(57, 23);
+            this.btnClear.TabIndex = 18;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // DefectExplorer
             // 
@@ -252,14 +300,18 @@ namespace OracledbEditor
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton tlBtnRefresh;
-        private System.Windows.Forms.ToolStripButton tlBtnSearch;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.ToolStripTextBox tlTxtSearch;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.ToolStripButton tlBtnRefresh;
+        private System.Windows.Forms.ToolStripButton tlBtnSearch;
+        private System.Windows.Forms.ToolStripTextBox tlTxtSearch;
+        private System.Windows.Forms.ToolStrip toolStrip;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 
