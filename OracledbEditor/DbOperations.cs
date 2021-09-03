@@ -30,6 +30,11 @@ namespace OracledbEditor
                 MessageBox.Show(ex.Message);
             }
         }
+        public void ConnectToCR() { // connect to crystal raport
+            report_with_images_3 cryRpt = new report_with_images_3();
+            cryRpt.SetDatabaseLogon("praktika_Vladyslav", "praktika", "192.168.0.188:1521/startas", "");
+
+        }
         public void CloseConnection()
         {
             if (conn.State == System.Data.ConnectionState.Open)
@@ -112,7 +117,7 @@ namespace OracledbEditor
         public List<IDefectItem> SearchLikeRows(string tableName,string Name, string Description)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();
-            string sql = $"select * from {tableName} where UPPER(sname) like UPPER('{Name}%') and sdescription like UPPER('{Description}%') collate binary_ci";
+            string sql = $"select * from {tableName} where UPPER(sname) like UPPER('{Name}%') and UPPER(sdescription) like UPPER('{Description}%') collate binary_ci";
             OracleCommand cmd = new OracleCommand(sql, conn);
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())

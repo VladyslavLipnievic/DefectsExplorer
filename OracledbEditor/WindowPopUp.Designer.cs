@@ -40,24 +40,24 @@ namespace OracledbEditor
             // 
             // txtBoxName
             // 
-            this.txtBoxName.Location = new System.Drawing.Point(12, 25);
+            this.txtBoxName.Location = new System.Drawing.Point(122, 21);
             this.txtBoxName.Name = "txtBoxName";
-            this.txtBoxName.Size = new System.Drawing.Size(269, 20);
+            this.txtBoxName.Size = new System.Drawing.Size(146, 20);
             this.txtBoxName.TabIndex = 1;
             this.txtBoxName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // txtBoxDescription
             // 
-            this.txtBoxDescription.Location = new System.Drawing.Point(287, 25);
+            this.txtBoxDescription.Location = new System.Drawing.Point(406, 22);
             this.txtBoxDescription.Name = "txtBoxDescription";
-            this.txtBoxDescription.Size = new System.Drawing.Size(265, 20);
+            this.txtBoxDescription.Size = new System.Drawing.Size(146, 20);
             this.txtBoxDescription.TabIndex = 2;
             this.txtBoxDescription.TextChanged += new System.EventHandler(this.txtBoxDescription_TextChanged);
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(12, 9);
+            this.lblName.Location = new System.Drawing.Point(4, 25);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 4;
@@ -66,8 +66,10 @@ namespace OracledbEditor
             // 
             // lblDescription
             // 
+            this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(284, 9);
+            this.lblDescription.Location = new System.Drawing.Point(268, 25);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(35, 13);
             this.lblDescription.TabIndex = 5;

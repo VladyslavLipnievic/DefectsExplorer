@@ -36,8 +36,12 @@ namespace OracledbEditor
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabSearchType = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnClear = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
@@ -48,12 +52,14 @@ namespace OracledbEditor
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tlBtnPrintCr = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnClear = new System.Windows.Forms.Button();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabSearchType.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,6 +77,7 @@ namespace OracledbEditor
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(6, 109);
+            this.txtDescription.MaxLength = 254;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(295, 20);
             this.txtDescription.TabIndex = 12;
@@ -81,6 +88,7 @@ namespace OracledbEditor
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(6, 57);
+            this.txtName.MaxLength = 20;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(295, 20);
             this.txtName.TabIndex = 11;
@@ -104,16 +112,7 @@ namespace OracledbEditor
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Name";
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblType.Location = new System.Drawing.Point(3, 0);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(89, 18);
-            this.lblType.TabIndex = 15;
-            this.lblType.Text = "DefectItem";
+            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // splitContainer1
             // 
@@ -129,12 +128,12 @@ namespace OracledbEditor
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.tabSearchType);
             this.splitContainer1.Panel2.Controls.Add(this.btnClear);
             this.splitContainer1.Panel2.Controls.Add(this.btnSearch);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnInsert);
             this.splitContainer1.Panel2.Controls.Add(this.btnSave);
-            this.splitContainer1.Panel2.Controls.Add(this.lblType);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.txtName);
             this.splitContainer1.Panel2.Controls.Add(this.txtDescription);
@@ -144,6 +143,58 @@ namespace OracledbEditor
             this.splitContainer1.SplitterDistance = 203;
             this.splitContainer1.TabIndex = 16;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // tabSearchType
+            // 
+            this.tabSearchType.Controls.Add(this.tabPage1);
+            this.tabSearchType.Controls.Add(this.tabPage2);
+            this.tabSearchType.Controls.Add(this.tabPage3);
+            this.tabSearchType.Location = new System.Drawing.Point(6, 3);
+            this.tabSearchType.Name = "tabSearchType";
+            this.tabSearchType.SelectedIndex = 0;
+            this.tabSearchType.Size = new System.Drawing.Size(294, 21);
+            this.tabSearchType.TabIndex = 19;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(286, 0);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Defect";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(286, 0);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Defect type";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(286, 0);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Defect position";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(247, 145);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(57, 23);
+            this.btnClear.TabIndex = 18;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSearch
             // 
@@ -219,11 +270,13 @@ namespace OracledbEditor
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tlBtnRefresh,
             this.tlBtnSearch,
             this.tlTxtSearch,
             this.toolStripButton2,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.tlBtnRefresh,
+            this.toolStripButton3,
+            this.tlBtnPrintCr});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(531, 25);
@@ -251,6 +304,16 @@ namespace OracledbEditor
             this.toolStripButton1.Text = "tlBtnNext";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // tlBtnPrintCr
+            // 
+            this.tlBtnPrintCr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlBtnPrintCr.Image = ((System.Drawing.Image)(resources.GetObject("tlBtnPrintCr.Image")));
+            this.tlBtnPrintCr.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlBtnPrintCr.Name = "tlBtnPrintCr";
+            this.tlBtnPrintCr.Size = new System.Drawing.Size(23, 22);
+            this.tlBtnPrintCr.Text = "toolStripButton3";
+            this.tlBtnPrintCr.Click += new System.EventHandler(this.tlBtnPrintCr_Click);
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -259,15 +322,15 @@ namespace OracledbEditor
             this.imageList1.Images.SetKeyName(1, "defectposition.png");
             this.imageList1.Images.SetKeyName(2, "defecttype.png");
             // 
-            // btnClear
+            // toolStripButton3
             // 
-            this.btnClear.Location = new System.Drawing.Point(247, 145);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(57, 23);
-            this.btnClear.TabIndex = 18;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "tlBtnExpand";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // DefectExplorer
             // 
@@ -284,6 +347,7 @@ namespace OracledbEditor
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabSearchType.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -298,7 +362,6 @@ namespace OracledbEditor
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnInsert;
@@ -312,6 +375,12 @@ namespace OracledbEditor
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.TabControl tabSearchType;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ToolStripButton tlBtnPrintCr;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }
 
