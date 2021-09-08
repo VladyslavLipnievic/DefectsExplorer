@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace OracledbEditor
 {
-    public partial class WindowPopUp : Form
+    public partial class SearchWindow : Form
     {
         List<IDefectItem> searchList = new List<IDefectItem>();
         Dictionary<int, int> MapIndexId = new Dictionary<int, int>();
@@ -19,14 +19,16 @@ namespace OracledbEditor
         string tableName;
         string txtBNameDEClass;
         string txtBDescDeClass;
+        bool isHidden;
         List<string> MapIdAndIndex = new List<string>();
         string[] row;
         public IDefectItem SelectedItem { get; set; }
-        public WindowPopUp(string itemType, DbOperations db, string tableName, string txtBNameDEClass, string txtBDescDeClass)
+        public SearchWindow(string itemType, DbOperations db, string tableName, string txtBNameDEClass, string txtBDescDeClass, bool isHidden)
         {
             InitializeComponent();
             this.itemType = itemType;
             this.db = db;
+            this.isHidden = isHidden;
             this.tableName = tableName;
             this.txtBNameDEClass = txtBNameDEClass;
             this.txtBDescDeClass = txtBDescDeClass;
@@ -54,13 +56,19 @@ namespace OracledbEditor
         }
         public void checkSearchtype()
         {
-            if (txtBNameDEClass == "" && txtBDescDeClass == "")
+            if (txtBNameDEClass == "" && txtBDescDeClass == ""&& isHidden==true)
             {
                 dataGridView1.Rows.Clear();
-                searchList = db.SearchAndReturnAll(tableName);
+                searchList = db.searchnhidden1(tableName);
                 fillGrid();
             }
-            else
+            if (txtBNameDEClass == "" && txtBDescDeClass == "" && isHidden == false)
+            {
+                dataGridView1.Rows.Clear();
+                searchList = db.searchnhidden0(tableName);
+                fillGrid();
+            }
+            if (txtBNameDEClass != "" || txtBDescDeClass != "")
             {
                 dataGridView1.Rows.Clear();
                 searchList = db.SearchLikeRows(tableName, txtBoxName.Text, txtBoxDescription.Text);

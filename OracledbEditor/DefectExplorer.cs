@@ -2,11 +2,11 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 using Newtonsoft.Json;
 using CrystalDecisions.CrystalReports.Engine;
-
 namespace OracledbEditor
 {
     public partial class DefectExplorer : Form
@@ -20,10 +20,12 @@ namespace OracledbEditor
         int searchIndex = 0;
         public string itemTypeId = "";
         public string itemType = "";
+        string ItemName;
         bool treeExpanded = false;
         TreeNode rootNode;
-
-
+        TreeNode defectNode;
+        TreeNode defectTypeNode;
+        TreeNode defectPositionNode;
         public DefectExplorer()
         {
             InitializeComponent();
@@ -53,6 +55,9 @@ namespace OracledbEditor
             txtName.DoubleClick += new EventHandler(btnSearch_Click);
             txtDescription.DoubleClick += new EventHandler(btnSearch_Click);
             this.Activated += AfterLoading;
+            // treeView1.Nodes[0].Expand();
+            // GetSelectedItem();
+            TabSelectedIndex();
         }
         public void tabPage2_Click(object sender, EventArgs e)
         {
@@ -64,7 +69,6 @@ namespace OracledbEditor
             txtName.Text = "";
             txtDescription.Text = "";
         }
-
         private void searchedItemType()
         {
             label1.Text = itemType + " name";
@@ -83,20 +87,17 @@ namespace OracledbEditor
         }
         void PrintTree()
         {
-            TreeNode defectNode;
-            TreeNode defectTypeNode;
-            TreeNode defectPositionNode;
-
             rootNode = treeView1.Nodes.Add("root");
             nodeMap[rootNode] = 'r';
-
             foreach (var defect in db.defectlist)
             {
                 defectNode = rootNode.Nodes.Add(defect.Name);
                 defectNode.Tag = defect;
                 defectNode.Name = defect.Name;
-                defectNode.ImageIndex = 0;
-                defectNode.SelectedImageIndex = 0;
+                if (defect.nHidden == 1)
+                {
+                    defectNode.ForeColor = Color.Red;
+                }
                 nodeMap[defectNode] = 'd';
                 foreach (var defectType in db.defectTypeList)
                 {
@@ -105,8 +106,11 @@ namespace OracledbEditor
                         defectTypeNode = defectNode.Nodes.Add(defectType.Name);
                         defectTypeNode.Tag = defectType;
                         defectTypeNode.Name = defectType.Name;
-                        defectTypeNode.ImageIndex = 1;
-                        defectTypeNode.SelectedImageIndex = 1;
+
+                        if (defectType.nHidden == 1)
+                        {
+                            defectTypeNode.ForeColor = Color.Red;
+                        }
                         nodeMap[defectTypeNode] = 't';
                         foreach (var defectPosition in db.defectPositionList)
                         {
@@ -115,8 +119,10 @@ namespace OracledbEditor
                                 defectPositionNode = defectTypeNode.Nodes.Add(defectPosition.Name);
                                 defectPositionNode.Tag = defectPosition;
                                 defectPositionNode.Name = defectPosition.Name;
-                                defectPositionNode.ImageIndex = 2;
-                                defectPositionNode.SelectedImageIndex = 2;
+                                if (defectPosition.nHidden == 1)
+                                {
+                                    defectPositionNode.ForeColor = Color.Red;
+                                }
                                 nodeMap[defectPositionNode] = 'p';
                             }
                         }
@@ -124,15 +130,35 @@ namespace OracledbEditor
                 }
             }
         }
-        private void btnSelect_Click_1(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
+            if (txtName.Text != "" && treeView1.SelectedNode.Tag.ToString() != "r" && treeView1.SelectedNode != null)
+            {
+                if (ckBoxValueCheck() == true)
+                {
+                    saveToDb("1");
+                    ckBoxHidden.Checked = true;
+                }
+                else
+                {
+                    saveToDb("0");
+                    ckBoxHidden.Checked = false;
+                }
+                RefreshTree();
+                tlTxtSearch.Tag = ItemName;
+                searchButton();
+            }
         }
-        private void txtName_TextChanged(object sender, EventArgs e)
+        private void checkIfHiddenDefect(IDefectItem defectItem)
         {
-        }
-        private void txtName_Double_Click(object sender, EventArgs e)
-        {
-            forSearchandDoubleClick();
+            if (defectItem.nHidden == 1)
+            {
+                ckBoxHidden.Checked = true;
+            }
+            else
+            {
+                ckBoxHidden.Checked = false;
+            }
         }
         IDefectItem GetSelectedItem()
         {
@@ -144,17 +170,23 @@ namespace OracledbEditor
                         defectItem = treeView1.SelectedNode.Tag as Defect;
                         itemType = "Defect";
                         tabSearchType.SelectedIndex = 0;
+                        ItemName = treeView1.SelectedNode.Text;
+                        checkIfHiddenDefect(defectItem);
                         rootNode.Tag = "0";
                         break;
                     case 't':
                         defectItem = treeView1.SelectedNode.Tag as DefectType;
                         itemType = "Defect type";
+                        checkIfHiddenDefect(defectItem);
+                        ItemName = treeView1.SelectedNode.Text;
                         tabSearchType.SelectedIndex = 1;
                         rootNode.Tag = "0";
                         break;
                     case 'p':
                         defectItem = treeView1.SelectedNode.Tag as DefectPosition;
                         itemType = "Defect position";
+                        checkIfHiddenDefect(defectItem);
+                        ItemName = treeView1.SelectedNode.Text;
                         tabSearchType.SelectedIndex = 2;
                         rootNode.Tag = "0";
                         break;
@@ -162,14 +194,10 @@ namespace OracledbEditor
                         rootNode.Tag = "r";
                         defectItem.Id = 0;
                         break;
-
                     default:
                         break;
                 }
             }
-     
-
-
             return defectItem;
         }
         public void SearchNode(TreeNode treeNode, bool searchTree)
@@ -189,7 +217,7 @@ namespace OracledbEditor
             }
             if (searchTree)
             {
-                if (treeNode.Text.Contains(tlTxtSearch.Text))
+                if (treeNode.Text.Contains(tlTxtSearch.Tag.ToString()))
                 {
                     searchItemsList.Add(treeNode);
                 }
@@ -232,18 +260,14 @@ namespace OracledbEditor
         }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-
             IDefectItem defItem = GetSelectedItem();
             if (defItem != null)
             {
-                //MessageBox.Show(defItem.Id.ToString());
                 itemTypeId = defItem.Id.ToString();
                 DisplayItem(defItem);
             }
-
         }
-
-        private void Tabs_SelectedIndexChanged(object sender, EventArgs e)//for updating entries
+        private void TabSelectedIndex()
         {
             if (tabSearchType.SelectedIndex == 0)
             {
@@ -263,7 +287,6 @@ namespace OracledbEditor
                 itemType = "Defect position";
                 searchedItemType();
             }
-
         }
         private string GetTableNameFromTab()
         {
@@ -286,13 +309,21 @@ namespace OracledbEditor
                 return "defect_position";
             }
             return "";
+
+
+        }
+        private void Tabs_SelectedIndexChanged(object sender, EventArgs e)//for updating entries
+        {
+            TabSelectedIndex();
         }
         private void forSearchandDoubleClick()
         {
-            WindowPopUp objUI = new WindowPopUp(itemType, db, GetTableNameFromTab(), txtName.Text, txtDescription.Text);
+            SearchWindow objUI = new SearchWindow(itemType, db, GetTableNameFromTab(), txtName.Text, txtDescription.Text, ckBoxValueCheck());
             var result = objUI.ShowDialog();
+           
             if (result == DialogResult.OK)
             {
+                
                 IDefectItem defItem = objUI.SelectedItem;
                 DisplayItem(defItem);
                 SelectTreeItem(defItem);
@@ -300,7 +331,12 @@ namespace OracledbEditor
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            //treeView1.Nodes[0].Expand();
+         
+            
             forSearchandDoubleClick();
+
+           // treeView1.SelectedNode = treeView1.Nodes[0].Nodes[0];
         }
         private void label2_Click(object sender, EventArgs e)
         {
@@ -323,14 +359,19 @@ namespace OracledbEditor
         private void tlBtnRefresh_Click(object sender, EventArgs e)
         {
             RefreshTree();
+            treeView1.Nodes[0].Expand();
+            treeView1.SelectedNode = treeView1.Nodes[0];
+            
+            //jai reikia pasirinkti child elementa treeView1.SelectedNode = treeView1.Nodes[0].[0];
         }
-        void saveToDb()
+        void saveToDb(string nHidden)
         {
             IDefectItem defectItem = GetSelectedItem();
             try
             {
                 db.UpdateDB(defectItem.TableName, "sname", txtName.Text, defectItem.Id);
                 db.UpdateDB(defectItem.TableName, "sdescription", txtDescription.Text, defectItem.Id);
+                db.UpdateDB(defectItem.TableName, "nHidden", nHidden, defectItem.Id);
                 treeView1.SelectedNode.Text = txtName.Text;
                 IDefectItem defectItemFromTxtForm = GetSelectedItem();
                 defectItemFromTxtForm.Name = txtName.Text;
@@ -341,15 +382,6 @@ namespace OracledbEditor
                 MessageBox.Show("Failed to update db. Error: " + ex.Message);
             }
         }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            if (txtName.Text != "" && rootNode.Tag.ToString() != "r")
-            {
-                saveToDb();
-            }
-        }
-
-
         private void expandTreeView()
         {
             foreach (TreeNode tn in treeView1.Nodes)
@@ -357,27 +389,39 @@ namespace OracledbEditor
                 {
                     if (tn.Level == 0)
                         tn.Expand();
-
                 }
             }
-           
-      
-    }
-
-
+        }
+        private bool ckBoxValueCheck()
+        {
+            if (ckBoxHidden.Checked == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         private void btnInsert_Click(object sender, EventArgs e)
         {
             if (txtName.Text != "")
             {
-                db.addNewRow("defects", txtName.Text, txtDescription.Text);
+                if (ckBoxValueCheck() == true)
+                {
+                    db.addNewRow("defects", txtName.Text, txtDescription.Text, "1");
+                }
+                else
+                {
+                    db.addNewRow("defects", txtName.Text, txtDescription.Text, "0");
+                }
                 RefreshTree();
                 expandTreeView();
             }
-
         }
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
-            if (rootNode.Tag.ToString() != "r")
+            if (rootNode.Tag.ToString() != "r" && treeView1.SelectedNode != null)
             {
                 try
                 {
@@ -390,9 +434,8 @@ namespace OracledbEditor
                     MessageBox.Show("Failed to update db. Error: " + ex.Message);
                 }
             }
-
         }
-        private void tlBtnSearch_Click_1(object sender, EventArgs e)
+        public void searchButton()
         {
             searchIndex = 0;
             searchItemsList.Clear();
@@ -402,6 +445,11 @@ namespace OracledbEditor
                 treeView1.SelectedNode = searchItemsList[0];
                 treeView1.Focus();
             }
+        }
+        private void tlBtnSearch_Click_1(object sender, EventArgs e)
+        {
+            tlTxtSearch.Tag = tlTxtSearch.Text;
+            searchButton();
         }
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -425,17 +473,20 @@ namespace OracledbEditor
         {
 
         }
-
         private void btnClear_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+        private void Clear()
         {
             txtName.Text = "";
             txtDescription.Text = "";
-            treeView1.SelectedNode = null;
             itemTypeId = "0";
         }
         private void tlBtnPrintCr_Click(object sender, EventArgs e)
         {
-            loadReportWindow();
+            PrintcrTree rpUI = new PrintcrTree(config);
+            var result = rpUI.ShowDialog();
         }
         private void loadReportWindow()
         {
@@ -476,19 +527,39 @@ namespace OracledbEditor
         {
 
         }
-
+        private void btnSelect_Click_1(object sender, EventArgs e)
+        {
+        }
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+        }
+        private void txtName_Double_Click(object sender, EventArgs e)
+        {
+            forSearchandDoubleClick();
+        }
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             if (treeExpanded)
             {
-                treeView1.CollapseAll();
+
+                treeView1.Nodes[0].Expand();
+                // treeView1.CollapseAll();
                 treeExpanded = false;
             }
             else
             {
-                treeView1.ExpandAll();
+                treeView1.Nodes[0].Collapse();
+                //  treeView1.ExpandAll();
                 treeExpanded = true;
             }
+        }
+        private void ckBoxHidden_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void btnPrint_Click_1(object sender, EventArgs e)
+        {
+            loadReportWindow();
         }
     }
 }

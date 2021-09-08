@@ -209,10 +209,22 @@
     <Compile Include="DefectExplorer.Designer.cs">
       <DependentUpon>DefectExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="PrintcrTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintcrTree.Designer.cs">
+      <DependentUpon>PrintcrTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="IDefectItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbOperations.cs" />
+    <Compile Include="Report1crtreeview3.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report1crtreeview3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="reportPrint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,16 +237,21 @@
       <DependentUpon>report_with_images 3.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SearchList.cs" />
     <Compile Include="TreeViewItem.cs" />
-    <Compile Include="WindowPopUp.cs">
+    <Compile Include="SearchWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WindowPopUp.Designer.cs">
-      <DependentUpon>WindowPopUp.cs</DependentUpon>
+    <Compile Include="SearchWindow.Designer.cs">
+      <DependentUpon>SearchWindow.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="DefectExplorer.resx">
       <DependentUpon>DefectExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintcrTree.aa.resx">
+      <DependentUpon>PrintcrTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintcrTree.resx">
+      <DependentUpon>PrintcrTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -245,6 +262,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Report1crtreeview3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Report1crtreeview3.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="reportPrint.resx">
       <DependentUpon>reportPrint.cs</DependentUpon>
     </EmbeddedResource>
@@ -252,8 +273,8 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>report_with_images 3.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="WindowPopUp.resx">
-      <DependentUpon>WindowPopUp.cs</DependentUpon>
+    <EmbeddedResource Include="SearchWindow.resx">
+      <DependentUpon>SearchWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>

@@ -1,7 +1,7 @@
 ﻿
 namespace OracledbEditor
 {
-    partial class WindowPopUp
+    partial class SearchWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -35,6 +35,7 @@ namespace OracledbEditor
             this.lblDescription = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblCountRows = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,11 +99,24 @@ namespace OracledbEditor
             this.lblCountRows.TabIndex = 7;
             this.lblCountRows.Text = "label3";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "All queries",
+            "Queries with hidden defect",
+            "Queries without hidden defect"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 341);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(181, 21);
+            this.comboBox1.TabIndex = 8;
+            // 
             // WindowPopUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 366);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.lblCountRows);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblDescription);
@@ -125,5 +139,6 @@ namespace OracledbEditor
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label lblCountRows;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

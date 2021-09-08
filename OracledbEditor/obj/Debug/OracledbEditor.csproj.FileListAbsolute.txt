@@ -92,7 +92,6 @@ e:\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor
 e:\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.exe
 e:\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.pdb
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.DefectExplorer.resources
-C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.WindowPopUp.resources
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\CrystalDecisions.ReportSource.dll
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\CrystalDecisions.Shared.dll
@@ -164,3 +163,8 @@ C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\Microsoft.Id
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\System.Memory.Data.xml
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\bin\Debug\aa\OracledbEditor.resources.dll
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\aa\OracledbEditor.resources.dll
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.SearchWindow.resources
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.PrintcrTree.resources
+C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.PrintcrTree.aa.resources

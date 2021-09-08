@@ -12,6 +12,7 @@ namespace OracledbEditor
         public string Name { get; set; }
         public string Description { get; set; }
         public int DefectTypeId { get; set; }
+        public int nHidden { get; set; }
         public string TableName { get; } = "defect_position";
     }
 }

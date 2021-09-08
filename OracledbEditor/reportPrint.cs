@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
-
 namespace OracledbEditor
 {
     public partial class reportPrint : Form
@@ -26,30 +25,24 @@ namespace OracledbEditor
             this.dName = dName;
             this.itemTypeId = itemTypeId;
             this.configuration = configuration;
-           // MessageBox.Show(itemTypeId);
         }
-
         private void crystalReportViewer1_Load(object sender, EventArgs e)
         {
-
             report_with_images_3 cryRpt = new report_with_images_3();
-            cryRpt.Load(cryRpt.ToString());
-            string parameterCr = "";
+            string parameterCr = "d";
             if (itemTypeId != "0")
             {
-               parameterCr = "and d.nid =" + itemTypeId;
+               parameterCr = "d and d.nid =" + itemTypeId;
             }
-
-            //cryRpt.SetDatabaseLogon("praktika_Vladyslav", "praktika", "192.168.0.188:1521/startas", "");
-            cryRpt.SetDatabaseLogon(configuration.userId, configuration.password, configuration.address, "");
+            //MessageBox.Show(parameterCr);
+            crystalReportViewer1.ReportSource = cryRpt;
+            cryRpt.Load(cryRpt.ToString());
+            cryRpt.Refresh();
             cryRpt.SetParameterValue("defect_id", parameterCr.ToString());
-
+            cryRpt.SetDatabaseLogon(configuration.userId, configuration.password, configuration.address, "");
             DateTime Now = DateTime.Now;
             string timeNow = Now.ToString("yyyy-MM-dd hh.mm.ss");
             cryRpt.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, @"D:\crystalReport"+ dName + timeNow+ ".pdf");
-
-            crystalReportViewer1.ReportSource = cryRpt;
-            crystalReportViewer1.Refresh();
         }
     }
 }
