@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using Newtonsoft.Json;
 using System.Windows.Forms;
-
+using Oracle.ManagedDataAccess.Types;
 namespace OracledbEditor
 {
     public class DbOperations
@@ -68,7 +68,6 @@ namespace OracledbEditor
             {
                 defectTypeList.Add(new DefectType { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), Defectid = Convert.ToInt32(dr[3].ToString()), nHidden = Convert.ToInt32(dr[4]) });
             }
-            // close and dispose the objects
             dr.Close();
             dr.Dispose();
             cmd.Dispose();
@@ -80,19 +79,12 @@ namespace OracledbEditor
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                defectlist.Add(new Defect { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), nHidden = Convert.ToInt32(dr[3]) });
-            
+                defectlist.Add(new Defect { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(),
+                    Description = dr[2].ToString(), nHidden = Convert.ToInt32(dr[3]) });
             }
-
-            // close and dispose the objects
             dr.Close();
             dr.Dispose();
             cmd.Dispose();
-          /*  foreach (var defect in defectlist)
-            {
-
-                MessageBox.Show(defect.nHidden.ToString());
-            }*/
         }
         public void deleteRow(string tableName, int id)
         {
@@ -107,10 +99,19 @@ namespace OracledbEditor
             cmd.ExecuteNonQuery();
 
         }
-        public List<IDefectItem> SearchLikeRows(string tableName, string Name, string Description)
+        public void SetDbParams(string paramName, string paramText)
+        {
+            string sql = "context_api.set_parameter";
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = paramName;
+            cmd.Parameters.Add("p_value", OracleDbType.Varchar2).Value = paramText;
+            cmd.ExecuteNonQuery();
+        }
+        public List<IDefectItem> SearchLikeRows(string tableName)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();
-            string sql = $"select * from {tableName} where UPPER(sname) like UPPER('{Name}%') and UPPER(sdescription) like UPPER('{Description}%') collate binary_ci";
+            string sql = $"select * from {tableName}_view";
             OracleCommand cmd = new OracleCommand(sql, conn);
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -124,7 +125,7 @@ namespace OracledbEditor
                     case "defect_types":
                         defectItem = new DefectType();
                         break;
-                    case "defect_positions":
+                    case "defect_position":
                         defectItem = new DefectPosition();
                         break;
                     default:
@@ -141,9 +142,6 @@ namespace OracledbEditor
             cmd.Dispose();
             return searchList;
         }
-
-
-
         public List<IDefectItem> searchnhidden0(string tableName)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();
@@ -173,7 +171,6 @@ namespace OracledbEditor
                 defectItem.Description = dr[2].ToString();
                 searchList.Add(defectItem);
             }
-            // close and dispose the objects
             dr.Close();
             dr.Dispose();
             cmd.Dispose();

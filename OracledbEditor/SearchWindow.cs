@@ -27,6 +27,7 @@ namespace OracledbEditor
         {
             InitializeComponent();
             this.itemType = itemType;
+           // MessageBox.Show(tableName);
             this.db = db;
             this.isHidden = isHidden;
             this.tableName = tableName;
@@ -71,7 +72,10 @@ namespace OracledbEditor
             if (txtBNameDEClass != "" || txtBDescDeClass != "")
             {
                 dataGridView1.Rows.Clear();
-                searchList = db.SearchLikeRows(tableName, txtBoxName.Text, txtBoxDescription.Text);
+              
+                    db.SetDbParams("searchName", txtBoxName.Text);
+                    db.SetDbParams("searchDesc", txtBoxDescription.Text);
+                    searchList = db.SearchLikeRows(tableName);
                 fillGrid();
             }
         }

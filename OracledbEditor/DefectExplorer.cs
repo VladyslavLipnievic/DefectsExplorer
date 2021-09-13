@@ -320,10 +320,8 @@ namespace OracledbEditor
         {
             SearchWindow objUI = new SearchWindow(itemType, db, GetTableNameFromTab(), txtName.Text, txtDescription.Text, ckBoxValueCheck());
             var result = objUI.ShowDialog();
-           
             if (result == DialogResult.OK)
             {
-                
                 IDefectItem defItem = objUI.SelectedItem;
                 DisplayItem(defItem);
                 SelectTreeItem(defItem);
@@ -331,12 +329,7 @@ namespace OracledbEditor
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            //treeView1.Nodes[0].Expand();
-         
-            
             forSearchandDoubleClick();
-
-           // treeView1.SelectedNode = treeView1.Nodes[0].Nodes[0];
         }
         private void label2_Click(object sender, EventArgs e)
         {
