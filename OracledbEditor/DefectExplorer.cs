@@ -55,8 +55,6 @@ namespace OracledbEditor
             txtName.DoubleClick += new EventHandler(btnSearch_Click);
             txtDescription.DoubleClick += new EventHandler(btnSearch_Click);
             this.Activated += AfterLoading;
-            // treeView1.Nodes[0].Expand();
-            // GetSelectedItem();
             TabSelectedIndex();
         }
         public void tabPage2_Click(object sender, EventArgs e)
@@ -265,7 +263,24 @@ namespace OracledbEditor
             {
                 itemTypeId = defItem.Id.ToString();
                 DisplayItem(defItem);
+                if (defItem.TableName == "defects") //PAKEISTI SITA
+                {
+                    ShowDtCount(defItem.Id);
+                }
+                if (defItem.TableName == "defect_types")
+                {
+                    ShowDpCount(defItem.Id);
+                }
             }
+        }
+
+        private void ShowDpCount(int defectId)
+        {
+            lblsubdefectCount.Text = "Defect position count: " + db.GetDpCount(defectId).ToString();
+        }
+        private void ShowDtCount(int defectId)
+        {
+            lblsubdefectCount.Text = "Defect type count: " + db.GetDtCount(defectId).ToString();
         }
         private void TabSelectedIndex()
         {
@@ -288,6 +303,7 @@ namespace OracledbEditor
                 searchedItemType();
             }
         }
+    
         private string GetTableNameFromTab()
         {
             if (tabSearchType.SelectedTab == tabSearchType.TabPages[0])
@@ -309,8 +325,6 @@ namespace OracledbEditor
                 return "defect_position";
             }
             return "";
-
-
         }
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)//for updating entries
         {
@@ -354,8 +368,6 @@ namespace OracledbEditor
             RefreshTree();
             treeView1.Nodes[0].Expand();
             treeView1.SelectedNode = treeView1.Nodes[0];
-            
-            //jai reikia pasirinkti child elementa treeView1.SelectedNode = treeView1.Nodes[0].[0];
         }
         void saveToDb(string nHidden)
         {
@@ -553,6 +565,11 @@ namespace OracledbEditor
         private void btnPrint_Click_1(object sender, EventArgs e)
         {
             loadReportWindow();
+        }
+
+        private void lblsubdefectCount_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -8,6 +8,8 @@ using Oracle.ManagedDataAccess.Client;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Types;
+using System.Data;
+
 namespace OracledbEditor
 {
     public class DbOperations
@@ -15,9 +17,7 @@ namespace OracledbEditor
         public List<Defect> defectlist { get; set; } = new List<Defect>();
         public List<DefectType> defectTypeList { get; set; } = new List<DefectType>();
         public List<DefectPosition> defectPositionList { get; set; } = new List<DefectPosition>();
-
         Dictionary<int, List<int>> DefectDefectsTypesMap = new Dictionary<int, List<int>>();
-
         private OracleConnection conn { get; set; }
         public void OpenConnection()
         {
@@ -108,6 +108,32 @@ namespace OracledbEditor
             cmd.Parameters.Add("p_value", OracleDbType.Varchar2).Value = paramText;
             cmd.ExecuteNonQuery();
         }
+        public int GetDpCount(int defectId)
+        {
+            string sql = "get_dp_count";
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            var ret = cmd.Parameters.Add(new OracleParameter("ret", OracleDbType.Decimal, ParameterDirection.ReturnValue));
+            cmd.Parameters.Add("ip_defect_type_id", OracleDbType.Decimal, ParameterDirection.Input).Value = defectId;
+            cmd.ExecuteNonQuery();
+            int result = 0;
+            if (ret != null && !(ret.Value is DBNull))
+                result = Convert.ToInt32(ret.Value.ToString());
+            return result;
+        }
+        public int GetDtCount(int defectId)
+        {
+            string sql = "get_dt_count";
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            var ret = cmd.Parameters.Add(new OracleParameter("ret", OracleDbType.Decimal, ParameterDirection.ReturnValue));
+            cmd.Parameters.Add("ip_defect_id", OracleDbType.Decimal, ParameterDirection.Input).Value = defectId;
+            cmd.ExecuteNonQuery();
+            int result = 0;
+            if (ret != null && !(ret.Value is DBNull))
+                result = Convert.ToInt32(ret.Value.ToString());
+            return result;
+        }
         public List<IDefectItem> SearchLikeRows(string tableName)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();
@@ -176,9 +202,6 @@ namespace OracledbEditor
             cmd.Dispose();
             return searchList;
         }
-
-
-
         public List<IDefectItem> searchnhidden1(string tableName)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();

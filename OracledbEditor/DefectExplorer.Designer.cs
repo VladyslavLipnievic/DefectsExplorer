@@ -57,6 +57,7 @@ namespace OracledbEditor
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.tlBtnPrintCr = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.lblsubdefectCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -130,6 +131,7 @@ namespace OracledbEditor
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblsubdefectCount);
             this.splitContainer1.Panel2.Controls.Add(this.btnPrint);
             this.splitContainer1.Panel2.Controls.Add(this.ckBoxHidden);
             this.splitContainer1.Panel2.Controls.Add(this.tabSearchType);
@@ -360,6 +362,16 @@ namespace OracledbEditor
             this.imageList1.Images.SetKeyName(4, "defectpositionHidden.png");
             this.imageList1.Images.SetKeyName(5, "defecttypeHidden.png");
             // 
+            // lblsubdefectCount
+            // 
+            this.lblsubdefectCount.AutoSize = true;
+            this.lblsubdefectCount.Location = new System.Drawing.Point(77, 135);
+            this.lblsubdefectCount.Name = "lblsubdefectCount";
+            this.lblsubdefectCount.Size = new System.Drawing.Size(17, 13);
+            this.lblsubdefectCount.TabIndex = 23;
+            this.lblsubdefectCount.Text = "lbl";
+            this.lblsubdefectCount.Click += new System.EventHandler(this.lblsubdefectCount_Click);
+            // 
             // DefectExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -411,6 +423,7 @@ namespace OracledbEditor
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.CheckBox ckBoxHidden;
         private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.Label lblsubdefectCount;
     }
 }
 
