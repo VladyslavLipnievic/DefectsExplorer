@@ -37,6 +37,7 @@ namespace OracledbEditor
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lblsubdefectCount = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.ckBoxHidden = new System.Windows.Forms.CheckBox();
             this.tabSearchType = new System.Windows.Forms.TabControl();
@@ -57,7 +58,7 @@ namespace OracledbEditor
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.tlBtnPrintCr = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.lblsubdefectCount = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,7 +80,7 @@ namespace OracledbEditor
             // 
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(6, 109);
+            this.txtDescription.Location = new System.Drawing.Point(6, 137);
             this.txtDescription.MaxLength = 254;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(362, 20);
@@ -90,7 +91,7 @@ namespace OracledbEditor
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(6, 70);
+            this.txtName.Location = new System.Drawing.Point(6, 98);
             this.txtName.MaxLength = 20;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(362, 20);
@@ -100,7 +101,7 @@ namespace OracledbEditor
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 93);
+            this.label2.Location = new System.Drawing.Point(7, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 14;
@@ -110,7 +111,7 @@ namespace OracledbEditor
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 54);
+            this.label1.Location = new System.Drawing.Point(7, 82);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 13;
@@ -131,6 +132,7 @@ namespace OracledbEditor
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.lblsubdefectCount);
             this.splitContainer1.Panel2.Controls.Add(this.btnPrint);
             this.splitContainer1.Panel2.Controls.Add(this.ckBoxHidden);
@@ -150,6 +152,16 @@ namespace OracledbEditor
             this.splitContainer1.TabIndex = 16;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
+            // lblsubdefectCount
+            // 
+            this.lblsubdefectCount.AutoSize = true;
+            this.lblsubdefectCount.Location = new System.Drawing.Point(72, 163);
+            this.lblsubdefectCount.Name = "lblsubdefectCount";
+            this.lblsubdefectCount.Size = new System.Drawing.Size(17, 13);
+            this.lblsubdefectCount.TabIndex = 23;
+            this.lblsubdefectCount.Text = "lbl";
+            this.lblsubdefectCount.Click += new System.EventHandler(this.lblsubdefectCount_Click);
+            // 
             // btnPrint
             // 
             this.btnPrint.Location = new System.Drawing.Point(306, 28);
@@ -163,7 +175,7 @@ namespace OracledbEditor
             // ckBoxHidden
             // 
             this.ckBoxHidden.AutoSize = true;
-            this.ckBoxHidden.Location = new System.Drawing.Point(10, 135);
+            this.ckBoxHidden.Location = new System.Drawing.Point(10, 163);
             this.ckBoxHidden.Name = "ckBoxHidden";
             this.ckBoxHidden.Size = new System.Drawing.Size(60, 17);
             this.ckBoxHidden.TabIndex = 21;
@@ -362,15 +374,15 @@ namespace OracledbEditor
             this.imageList1.Images.SetKeyName(4, "defectpositionHidden.png");
             this.imageList1.Images.SetKeyName(5, "defecttypeHidden.png");
             // 
-            // lblsubdefectCount
+            // button1
             // 
-            this.lblsubdefectCount.AutoSize = true;
-            this.lblsubdefectCount.Location = new System.Drawing.Point(77, 135);
-            this.lblsubdefectCount.Name = "lblsubdefectCount";
-            this.lblsubdefectCount.Size = new System.Drawing.Size(17, 13);
-            this.lblsubdefectCount.TabIndex = 23;
-            this.lblsubdefectCount.Text = "lbl";
-            this.lblsubdefectCount.Click += new System.EventHandler(this.lblsubdefectCount_Click);
+            this.button1.Location = new System.Drawing.Point(6, 56);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(57, 23);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Assign";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // DefectExplorer
             // 
@@ -424,6 +436,7 @@ namespace OracledbEditor
         private System.Windows.Forms.CheckBox ckBoxHidden;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Label lblsubdefectCount;
+        private System.Windows.Forms.Button button1;
     }
 }
 

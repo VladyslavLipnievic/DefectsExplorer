@@ -52,7 +52,14 @@ namespace OracledbEditor
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                defectPositionList.Add(new DefectPosition { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), DefectTypeId = Convert.ToInt32(dr[3].ToString()), nHidden = Convert.ToInt32(dr[4]) });
+                if (dr[3] == DBNull.Value)
+                {
+                    defectPositionList.Add(new DefectPosition { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), DefectTypeId = 0, nHidden = Convert.ToInt32(dr[4]) });
+                }
+                else
+                {
+                    defectPositionList.Add(new DefectPosition { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), DefectTypeId = Convert.ToInt32(dr[3].ToString()), nHidden = Convert.ToInt32(dr[4]) });
+                 }
             }
             dr.Close();
             dr.Dispose();
@@ -66,7 +73,31 @@ namespace OracledbEditor
             OracleDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                defectTypeList.Add(new DefectType { Id = Convert.ToInt32(dr[0].ToString()), Name = dr[1].ToString(), Description = dr[2].ToString(), Defectid = Convert.ToInt32(dr[3].ToString()), nHidden = Convert.ToInt32(dr[4]) });
+                if (dr[3] == DBNull.Value)
+                {
+                    defectTypeList.Add(new DefectType
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Name = dr[1].ToString(),
+                        Description = dr[2].ToString(),
+                        Defectid = 0,
+                        nHidden = Convert.ToInt32(dr[4])
+                    });
+                }
+                else
+                {
+                    defectTypeList.Add(new DefectType
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Name = dr[1].ToString(),
+                        Description = dr[2].ToString(),
+                        Defectid = Convert.ToInt32(dr[3].ToString()),
+                        nHidden = Convert.ToInt32(dr[4])
+                    });
+                }
+     
+              
+
             }
             dr.Close();
             dr.Dispose();
@@ -202,6 +233,119 @@ namespace OracledbEditor
             cmd.Dispose();
             return searchList;
         }
+        public void delRelation(int Id,string tableName)
+        {
+            List<IDefectItem> searchList = new List<IDefectItem>();
+            string sql = "";
+            // MessageBox.Show(tableName);
+            if (tableName == "defects")
+            {
+                sql = $"UPDATE Defect_types SET defect_id = null WHERE nid = {Id} ";
+            }
+            if (tableName == "defect_types")
+            {
+                sql = $"UPDATE defect_position SET defect_type_id = null WHERE nid = {Id} ";
+            }
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+        }
+
+        public void addRelation(int Id, string tableName,string itemId)
+        {
+            List<IDefectItem> searchList = new List<IDefectItem>();
+            string sql = "";
+            // MessageBox.Show(tableName);
+            if (tableName == "defects")
+            {
+                sql = $"UPDATE Defect_types SET defect_id = {itemId} WHERE nid = {Id} ";
+            }
+            if (tableName == "defect_types")
+            {
+                sql = $"UPDATE defect_position SET defect_type_id = {itemId} WHERE nid = {Id} ";
+            }
+            OracleCommand cmd = new OracleCommand(sql, conn); 
+            cmd.ExecuteNonQuery();
+        }
+
+        public List<IDefectItem> loadListBox1(string tableName, string Id)
+        {
+
+            List<IDefectItem> searchList = new List<IDefectItem>();
+            string sql = "";
+            //MessageBox.Show(tableName);
+            if (tableName == "defects")
+            {
+                sql = $"select nid,sname from defect_types where defect_id = {Id} ";
+            }
+            if (tableName == "defect_types")
+            {
+                sql = $"select nid,sname from defect_position where defect_type_id = {Id}";
+            }
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            OracleDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                IDefectItem defectItem;
+                switch (tableName)
+                {
+                    case "defect_types":
+                        defectItem = new DefectType();
+                        break;
+                    case "defect_positions":
+                        defectItem = new DefectPosition();
+                        break;
+                    default:
+                        defectItem = new Defect();
+                        break;
+                }
+                defectItem.Id = Convert.ToInt32(dr[0].ToString());
+               // MessageBox.Show(defectItem.Id.ToString());
+                defectItem.Name = dr[1].ToString();
+                searchList.Add(defectItem);
+            }
+            return searchList;
+        }
+
+
+        public List<IDefectItem> loadListBox2(string tableName, string Id)
+        {
+            List<IDefectItem> searchList = new List<IDefectItem>();
+            string sql = "";
+            if (tableName == "defects")
+            {
+                sql = $"select nid,sname from defect_types where defect_id is null ";
+            }
+            if (tableName == "defect_types")
+            {
+                sql = $"select nid,sname from defect_position where defect_type_id is null ";
+            }
+            OracleCommand cmd = new OracleCommand(sql, conn);
+            OracleDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                IDefectItem defectItem;
+                switch (tableName)
+                {
+                    case "defect_types":
+                        defectItem = new DefectType();
+                        break;
+                    case "defect_positions":
+                        defectItem = new DefectPosition();
+                        break;
+                    default:
+                        defectItem = new Defect();
+                        break;
+                }
+                defectItem.Id = Convert.ToInt32(dr[0].ToString());
+                defectItem.Name = dr[1].ToString();
+                searchList.Add(defectItem);
+            }
+            return searchList;
+        }
+
+
+
+
         public List<IDefectItem> searchnhidden1(string tableName)
         {
             List<IDefectItem> searchList = new List<IDefectItem>();

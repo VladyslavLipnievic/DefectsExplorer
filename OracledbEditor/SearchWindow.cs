@@ -48,7 +48,9 @@ namespace OracledbEditor
                 this.Close();
             }
         }
-        public void WindowPopUp_Load(object sender, EventArgs e)
+
+      
+            public void WindowPopUp_Load(object sender, EventArgs e)
         {
             lblName.Text = itemType + " Name";
             lblDescription.Text = itemType + " Description";

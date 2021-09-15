@@ -168,3 +168,4 @@ C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\aa\OracledbE
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.SearchWindow.resources
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.PrintcrTree.resources
 C:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.PrintcrTree.aa.resources
+c:\E\Work\Sources\Projects\DefectsExplorer\OracledbEditor\obj\Debug\OracledbEditor.RelationForm.resources

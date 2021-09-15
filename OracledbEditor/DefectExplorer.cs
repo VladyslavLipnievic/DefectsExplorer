@@ -36,7 +36,7 @@ namespace OracledbEditor
         {
             db.CloseConn();
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)///////////////////////////////////////////
         {
             try
             {
@@ -57,6 +57,8 @@ namespace OracledbEditor
             this.Activated += AfterLoading;
             TabSelectedIndex();
         }
+
+    
         public void tabPage2_Click(object sender, EventArgs e)
         {
 
@@ -571,5 +573,13 @@ namespace OracledbEditor
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            RelationForm objUI = new RelationForm(defectItem.TableName, db, defectItem.Id.ToString(), defectItem.Name);
+            var result = objUI.ShowDialog();
+
+        }
+   
     }
 }
